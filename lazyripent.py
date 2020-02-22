@@ -29,7 +29,7 @@ def RegTest(rk):
 		print("Found steam: \"{}\"".format(PATH_STEAM))
 	
 if(len(sys.argv) < 3):
-	Die("Not enough arguments!\nUsage: python lazyripent.py \"C:\Path\To\Bsps\\\" myrules")
+	Die("Not enough arguments!\nUsage: python lazyripent.py \"C:\Path\To\Bsps\" myrules")
 	
 PATH_BSP = sys.argv[1]
 PATH_RULE = sys.argv[2]+".txt"
