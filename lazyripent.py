@@ -31,8 +31,14 @@ def RegTest(rk):
 if(len(sys.argv) < 3):
 	Die("Not enough arguments!\nUsage: python lazyripent.py \"C:\Path\To\Bsps\" myrules")
 	
+#todo: replace with a proper argument parser, just throwing this in as a quick debug help
 PATH_BSP = sys.argv[1]
 PATH_RULE = sys.argv[2]+".txt"
+DEBUG_VERBOSE = False
+if(len(sys.argv) >= 4):
+	if(sys.argv[3] == "-verbose"):
+		DEBUG_VERBOSE = True
+	
 
 if not os.path.exists(PATH_BSP):
 	Die("BSP Path \"{}\" does not exist!".format(PATH_BSP))
@@ -83,7 +89,10 @@ for bsp in BSP_SOURCES:
 	bspfile = os.path.join(PATH_BSP, bsp)
 	ent = bsp.replace(".bsp", ".ent")
 	entfile = os.path.join(PATH_BSP, ent)
-	subprocess.call([RIPENT, "-export", bspfile], stdout=open(os.devnull, "wb"))
+	if DEBUG_VERBOSE:
+		subprocess.call([RIPENT, "-export", bspfile])
+	else:
+		subprocess.call([RIPENT, "-export", bspfile], stdout=open(os.devnull, "wb"))
 	print("Extracted to: \"{}\"".format(entfile))
 
 #load rule stuff
@@ -178,7 +187,7 @@ for bsp in BSP_SOURCES:
 	newfile = None
 	appendents = []
 	try:
-		with open(entfile, "r", newline="\n") as content:
+		with open(entfile, "r") as content:
 			file = content.read()
 	except:
 		Die("Failed to read ent file!")
@@ -343,7 +352,10 @@ for bsp in BSP_SOURCES:
 	bspfile = os.path.join(PATH_BSP, bsp)
 	ent = bsp.replace(".bsp", ".ent")
 	entfile = os.path.join(PATH_BSP, ent)
-	subprocess.call([RIPENT, "-import", entfile], stdout=open(os.devnull, "wb"))
+	if DEBUG_VERBOSE:
+		subprocess.call([RIPENT, "-import", entfile])
+	else:
+		subprocess.call([RIPENT, "-import", entfile], stdout=open(os.devnull, "wb"))
 	print("Imported: \"{}\"".format(entfile))
 	
 print("Cleaning up..")
