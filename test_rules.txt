@@ -45,7 +45,7 @@
 #test replace simple
 {
 	MATCH "classname" "monster_miniturret"
-	REPLACE "classname" "monster_minifucker"
+	REPLACE "classname" "monster_superminiturret"
 }
 
 #test replace complex
@@ -59,4 +59,13 @@
 {
 	MATCH "classname" "weapon_357"
 	NEWENT "classname:weapon_supercrowbar:origin:$origin:angles:$angles"
+}
+
+#test complex matching
+{
+	MATCH "classname" "func_door"
+	HAVE "speed"
+	NOTHAVE "displayname"
+	NOTMATCH "model" "*124"
+	REPLACE "speed" "888"
 }
