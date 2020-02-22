@@ -1,0 +1,62 @@
+#map file used: toonrun1.bsp from Sven Co-op
+
+#test selectors
+{
+	MATCH "classname" "func_wall"
+	ADD "success_match" "yes"
+}
+
+{
+	NOTMATCH "classname" "func_wall"
+	ADD "success_notmatch" "yes"
+}
+
+{
+	HAVE "model"
+	ADD "success_have" "yes"
+}
+
+{
+	NOTHAVE "model"
+	ADD "success_nothave" "yes"
+}
+
+{
+	MATCH "classname" "func_wa*"
+	ADD "success_wildlast" "yes"
+}
+
+{
+	MATCH "classname" "*_wall"
+	ADD "success_wildfirst" "yes"
+}
+
+{
+	MATCH "classname" "*nc_wa*"
+	ADD "success_wildboth" "yes"
+}
+
+#test remove
+{
+	MATCH "classname" "monster_*"
+	REMOVE "health"
+}
+
+#test replace simple
+{
+	MATCH "classname" "monster_miniturret"
+	REPLACE "classname" "monster_minifucker"
+}
+
+#test replace complex
+{
+	MATCH "classname" "monster_human_grunt"
+	MATCH "model" "models/toonrun/hgrunt.mdl"
+	REPLACE "model" "models/complex/?" "models/"
+}
+
+#test new ent
+{
+	MATCH "classname" "weapon_357"
+	NEWENT "classname:weapon_supercrowbar:origin:$origin:angles:$angles"
+}

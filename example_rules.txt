@@ -1,0 +1,71 @@
+#This is a comment, it will be ignored by the script.
+
+#a rule is defined between { and } characters, a single rule file can hold multiple rules.
+#and it must always select something.
+
+#Selecting an entity, or entities is easy. you have multiple conditions to choose from. these can be mixed as needed, and there are not really any limits. You can even select on a keyvalue that you are about to modify!
+#available selectors are:
+# MATCH "key" "value" - entity's key value MUST match this.
+# NOTMATCH "key" "value" - entity's key value CAN NOT match this.
+# ^match and nomatch are unique, and can use wildcarding both ways.
+# HAVE "key" - entity MUST HAVE this key.
+# NOTHAVE "key" - entity CAN NOT HAVE this key.
+
+#After selecting an entity, you have a few operations, or "modifiers" to use.
+#available modifiers are:
+# ADD "key" "value" - add a key value to the entity
+# REMOVE "key" - removes a key value from the entity
+# REPLACE "key" "value" - replace a key's value on the entity with this value.
+# REPLACE "key" "value?" "parse" - slightly more complex replace, where the third argument is removed from the original value, and then replaced in the second argument where the ? character is. see campaign example
+# NEWENT "key:value:key:$key" - Adds in a new entity, follows entmod/AFB format of key:value except in this case, $key is going to be replaced by whatever value was in the selected entity's key. see: new entity example.
+
+#cheatsheet
+{ 
+MATCH "key" "value"
+NOTMATCH "key" "value"
+HAVE "key"
+NOTHAVE "key"
+ADD "key" "value"
+REMOVE "key"
+REPLACE "key" "value",
+REPLACE "key" "value?" "parse"
+NEWENT "key:value:key:$key"
+}
+
+#basic examples
+
+{
+	HAVE "model"
+	NOTHAVE "scale"
+	ADD "scale" "2.5"
+}
+
+{
+	MATCH "monster_zombie"
+	NOTMATCH "is_player_ally" "1"
+	REPLACE "displayname" "evil zombie! >:0"
+	REPLACE "health" "2000"
+}
+
+#campaign example
+#useful for sven conversions
+
+{
+MATCH "classname" "monster_barney"
+MATCH "model" "models/barney.mdl"
+REPLACE "model" "models/superhl/?" "models/"
+ADD "displayname" "Super Barney"
+}
+
+{
+MATCH "classname" "env_sprite"
+MATCH "model" "sprites/overhere.spr"
+REPLACE "model" "sprites/superhl/?" "sprites/"
+}
+
+#new entity example
+
+{
+MATCH "classname" "monster_*"
+NEWENT "classname:weapon_gauss:origin:$origin:angles:$angles:scale:2.5:dmg:1024"
+}
