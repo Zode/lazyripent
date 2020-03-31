@@ -36,6 +36,11 @@
 	ADD "success_wildboth" "yes"
 }
 
+{
+	MATCH "origin" "0 0 0"
+	ADD "success_multispace" "yes"
+}
+
 #test remove
 {
 	MATCH "classname" "monster_*"

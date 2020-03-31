@@ -139,7 +139,7 @@ if FILE_RULE == None or isStrBlank(FILE_RULE):
 	
 #find rule definitions
 _bracketregex = re.compile(r"{(?:\n)([^}]*)(?:\n)}", re.I|re.M)
-_ruleregex = re.compile(r"([^\s]+)\s+\"([^\s]+)\"(?:\s+\"([^\s]+)\"(?:\s+\"([^\s]+)\")?)?", re.I|re.M)
+_ruleregex = re.compile(r"([^\s]+)\s+\"([^\s]+)\"(?:\s+\"(.+)\"(?:\s+\"([^\s]+)\")?)?", re.I|re.M)
 for regrule in re.findall(_bracketregex, FILE_RULE):
 	rule = cRule()
 	
