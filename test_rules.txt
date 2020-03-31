@@ -74,3 +74,16 @@
 	NOTMATCH "model" "*124"
 	REPLACE "speed" "888"
 }
+
+#test multiple repeats of same action
+{
+	MATCH "classname" "worldspawn"
+	REMOVE "angles"
+	REMOVE "message"
+}
+
+{
+	MATCH "classname" "worldspawn"
+	REPLACE "sounds" "2"
+	REPLACE "newunit" "2"
+}

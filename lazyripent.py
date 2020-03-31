@@ -244,15 +244,20 @@ for bsp in BSP_SOURCES:
 					if not hasKey:
 						accepted += 1
 			if accepted == len(rule.selectors): #process
+				#bit ugly, but works.
 				modded += 1
 				newentblock = ""
 				tempentblock = ""
+				tempentblock2 = entblock
 				#order of operations: remove, add, replace, newent
 				if len(rule.removes) > 0:
-					for toRemove in rule.removes:
-						for entkv in re.finditer(_kvregex, entblock):
+					for index, toRemove in enumerate(rule.removes):
+						for entkv in re.finditer(_kvregex, tempentblock2):
 							if(toRemove != entkv.group(1)):
 								tempentblock += "\"{}\" \"{}\"\n".format(entkv.group(1), entkv.group(2))
+						tempentblock2 = tempentblock
+						if(index < len(rule.removes)-1):
+							tempentblock = ""
 				else:
 					tempentblock = entblock;
 						
@@ -261,22 +266,26 @@ for bsp in BSP_SOURCES:
 				
 				for toAdd in rule.adds:
 					newentblock += "\n\"{}\" \"{}\"".format(toAdd, rule.adds[toAdd])
-					
-				for toReplace in rule.replaces:
+				
+				tempentblock2 = newentblock
+				for index, toReplace in enumerate(rule.replaces):
 					if(isStrBlank(toReplace.parser)): #simple
-						for entkv in re.finditer(_kvregex, newentblock):
+						for entkv in re.finditer(_kvregex, tempentblock2):
 							if(toReplace.key == entkv.group(1)):
 								tempentblock += "\"{}\" \"{}\"\n".format(toReplace.key, toReplace.value)
 							else:
 								tempentblock += "\"{}\" \"{}\"\n".format(entkv.group(1), entkv.group(2))
 					else: #complex
-						for entkv in re.finditer(_kvregex, newentblock):
+						for entkv in re.finditer(_kvregex, tempentblock2):
 							if(toReplace.key == entkv.group(1)):
 								fixedval = entkv.group(2).replace(toReplace.parser, "")
 								newval = toReplace.value.replace("?", fixedval)
 								tempentblock += "\"{}\" \"{}\"\n".format(toReplace.key, newval)
 							else:
 								tempentblock += "\"{}\" \"{}\"\n".format(entkv.group(1), entkv.group(2))
+					tempentblock2 = tempentblock
+					if(index < len(rule.replaces)-1):
+						tempentblock = ""
 							
 				if len(rule.replaces) > 0:
 					newentblock = tempentblock
