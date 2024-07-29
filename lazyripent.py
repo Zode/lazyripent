@@ -7,7 +7,7 @@ import re
 def Die(reason):
 	print("ERROR: "+reason)
 	print("Exiting..")
-	exit() #brutal.
+	sys.exit()
 	
 STEAM_IS32 = False
 PATH_STEAM = None
