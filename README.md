@@ -1,3 +1,5 @@
+# This script is obsolete, please use [Lazyripent2](https://github.com/Zode/Lazyripent2) instead
+
 # lazyripent
 tool for mass ripenting
 
